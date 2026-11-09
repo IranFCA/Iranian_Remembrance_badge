@@ -33,7 +33,6 @@ export type Copy = {
   specs: Spec[];
   diagramTitle: string;
   diagramNote: string;
-  leaveOut: string;
   swatches: { name: string; note: string }[];
 };
 
@@ -129,8 +128,6 @@ export const copy: Record<Lang, Copy> = {
     diagramTitle: "Section through the center",
     diagramNote:
       "Layers are drawn a little taller than true scale so the stack can be read. The millimetres are the ones to cut.",
-    leaveOut:
-      "No black disc under the flower. The petals overlap, and the button holds them. The sun stays on the crown.",
     swatches: [
       { name: "Felt", note: "Crimson · near Pantone 187 C" },
       { name: "Button", note: "Matte black enamel" },
@@ -224,8 +221,6 @@ export const copy: Record<Lang, Copy> = {
     diagramTitle: "برش از وسط",
     diagramNote:
       "لایه‌ها کمی بلندتر از اندازهٔ واقعی کشیده شده‌اند تا روی هم خوانده شوند. میلی‌مترها همان‌اند که باید بریده شود.",
-    leaveOut:
-      "زیر گل دایرهٔ سیاه نگذار. گلبرگ‌ها روی هم می‌افتند و دکمه نگه‌شان می‌دارد. خورشید روی خودِ تاج است.",
     swatches: [
       { name: "نمد", note: "سرخ · نزدیک پانتون ۱۸۷ سی" },
       { name: "دکمه", note: "مینای سیاه مات" },

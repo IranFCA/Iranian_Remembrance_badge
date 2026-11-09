@@ -14,13 +14,14 @@ import {
 type View = "flower" | "pieces" | "lapel";
 
 export function Proposal() {
-  const [lang, setLang] = useState<Lang>("en");
+  const [lang, setLang] = useState<Lang>("fa");
   const [view, setView] = useState<View>("flower");
   const t = copy[lang];
   const fa = lang === "fa";
 
   useEffect(() => {
     document.documentElement.lang = fa ? "fa" : "en";
+    document.documentElement.dir = fa ? "rtl" : "ltr";
     document.title = t.title;
   }, [fa, t.title]);
 
@@ -380,10 +381,6 @@ export function Proposal() {
               </li>
             ))}
           </ul>
-
-          <p className="mt-8 max-w-2xl border-t border-ink/15 pt-5 text-sm leading-6 text-ink/80">
-            {t.leaveOut}
-          </p>
         </section>
       </main>
     </div>

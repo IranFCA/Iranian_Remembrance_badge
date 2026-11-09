@@ -25,7 +25,7 @@ const persian = Vazirmatn({
 });
 
 export const metadata: Metadata = {
-  title: "The Laleh Pin",
+  title: "سنجاق لاله",
   description:
     "A remembrance pin for the people killed in the crackdown on protests in Iran on 8 and 9 January 2026, and for all those who have lost their lives for the freedom of Iran.",
 };
@@ -33,7 +33,8 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="en"
+      lang="fa"
+      dir="rtl"
       className={`${sans.variable} ${serif.variable} ${persian.variable} h-full antialiased`}
     >
       <body className="min-h-full">{children}</body>
