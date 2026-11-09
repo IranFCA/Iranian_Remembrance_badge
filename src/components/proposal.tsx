@@ -360,27 +360,6 @@ export function Proposal() {
               ))}
             </ul>
           </div>
-
-          <ul className="mt-8 flex flex-wrap gap-6">
-            {[
-              "bg-[#b42332]",
-              "bg-[#161311]",
-              "bg-[linear-gradient(160deg,#f3e2b8,#8a6424)]",
-            ].map((swatch, index) => (
-              <li key={t.swatches[index].name} className="flex items-center gap-3">
-                <span
-                  className={`h-9 w-9 rounded-full ring-1 ring-black/15 ${swatch}`}
-                  aria-hidden
-                />
-                <span>
-                  <span className="block text-sm">{t.swatches[index].name}</span>
-                  <span className="block text-xs text-ink/60">
-                    {t.swatches[index].note}
-                  </span>
-                </span>
-              </li>
-            ))}
-          </ul>
         </section>
       </main>
     </div>
