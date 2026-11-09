@@ -1,5 +1,7 @@
 # The Laleh Pin
 
+https://iranfca.github.io/Iranian_Remembrance_badge/
+
 A making proposal for a remembrance pin for the people killed in Iran on 8 and 9 January 2026 (18 and 19 Dey 1404).
 
 Eight crimson wool-felt petals in two layers. The second layer is turned, so the petals overlap and the flower sits on the cloth. There is no disc behind them. The center is a black enamel button that is the pin itself. On it, in gold, is the Pahlavi crown. The rim reads REMEMBRANCE 8–9 JAN, and PERSIA. The drawing and the cloth photo are the same design.
