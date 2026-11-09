@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+:root {
+  --wool: #100e0c;
+  --paper: #f4efe6;
+  --ink: #1c1612;
+  --gold: #c6a15b;
+  --gold-2: #f0e2c4;
+  --mist: #d2c6b4;
+  --brass: #8a6424;
+}
+
+@theme inline {
+  --color-wool: var(--wool);
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-gold: var(--gold);
+  --color-gold-2: var(--gold-2);
+  --color-mist: var(--mist);
+  --color-brass: var(--brass);
+  --font-sans: var(--font-source);
+  --font-serif: var(--font-cormorant);
+  --font-persian: var(--font-vazir);
+}
+
+body {
+  background: var(--wool);
+  color: var(--paper);
+  font-family: var(--font-source), "Segoe UI", sans-serif;
+}
+
+::selection {
+  background: #8e1c2c;
+  color: #f4efe6;
+}
+
+.stage {
+  background-color: #1a1613;
+  background-image:
+    radial-gradient(ellipse at 50% 40%, rgba(255, 236, 206, 0.06), transparent 58%),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.028) 0 1px,
+      transparent 1px 3px
+    ),
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0 1px, transparent 1px 4px);
+}
+
+.wool {
+  background-color: #241f1c;
+  background-image:
+    radial-gradient(ellipse at 30% 0%, rgba(255, 255, 255, 0.05), transparent 46%),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.03) 0 1px,
+      transparent 1px 3px
+    ),
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.22) 0 1px, transparent 1px 4px);
+}
+
+.wool-face {
+  background-color: #322b26;
+  background-image:
+    repeating-linear-gradient(
+      96deg,
+      rgba(255, 255, 255, 0.04) 0 1px,
+      transparent 1px 3px
+    ),
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.14) 0 1px, transparent 1px 4px);
+}
+
+.pin-shadow {
+  filter: drop-shadow(0 18px 16px rgba(0, 0, 0, 0.5));
+}
+
+.maker-card {
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.38);
+}
+
+button,
+a {
+  outline: none;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+
+  .no-print {
+    display: none;
+  }
+
+  .maker-card {
+    box-shadow: none;
+  }
+}

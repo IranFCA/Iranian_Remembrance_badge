@@ -1,0 +1,257 @@
+"use client";
+
+import { useId } from "react";
+
+const PETAL =
+  "M100 4 C116 18 131 38 129 56 C127 74 115 90 100 100 C85 90 71 74 71 56 C69 38 84 18 100 4 Z";
+
+function uidOf(prefix: string) {
+  return `${prefix}`;
+}
+
+function Defs({ id }: { id: string }) {
+  return (
+    <defs>
+      <radialGradient id={uidOf(`${id}-felt`)} cx="50%" cy="46%" r="68%">
+        <stop offset="0%" stopColor="#c4323f" />
+        <stop offset="62%" stopColor="#a11c2c" />
+        <stop offset="100%" stopColor="#861422" />
+      </radialGradient>
+      <radialGradient id={uidOf(`${id}-felt-back`)} cx="50%" cy="46%" r="68%">
+        <stop offset="0%" stopColor="#9a2432" />
+        <stop offset="70%" stopColor="#7c1522" />
+        <stop offset="100%" stopColor="#64101a" />
+      </radialGradient>
+      <radialGradient id={uidOf(`${id}-enamel`)} cx="34%" cy="30%" r="72%">
+        <stop offset="0%" stopColor="#3c3834" />
+        <stop offset="48%" stopColor="#161311" />
+        <stop offset="100%" stopColor="#050403" />
+      </radialGradient>
+      <linearGradient id={uidOf(`${id}-gold`)} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#f3e2b8" />
+        <stop offset="42%" stopColor="#d4b36a" />
+        <stop offset="100%" stopColor="#8a6424" />
+      </linearGradient>
+      <linearGradient id={uidOf(`${id}-brass`)} x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stopColor="#8d6428" />
+        <stop offset="38%" stopColor="#f0d7a2" />
+        <stop offset="70%" stopColor="#b89044" />
+        <stop offset="100%" stopColor="#6e4e1c" />
+      </linearGradient>
+      <clipPath id={uidOf(`${id}-dome`)}>
+        <circle cx="100" cy="100" r="23.6" />
+      </clipPath>
+      <path
+        id={uidOf(`${id}-rim-top`)}
+        d="M 71.4 100 A 28.6 28.6 0 0 0 128.6 100"
+      />
+      <path
+        id={uidOf(`${id}-rim-bot`)}
+        d="M 71.4 100 A 28.6 28.6 0 0 1 128.6 100"
+      />
+      <mask id={uidOf(`${id}-hole`)}>
+        <rect width="200" height="200" fill="white" />
+        <circle cx="100" cy="100" r="9.4" fill="black" />
+      </mask>
+    </defs>
+  );
+}
+
+function Petals({ id, holed }: { id: string; holed?: boolean }) {
+  const layers = [
+    { key: "back", degrees: [45, 135, 225, 315], fill: `url(#${id}-felt-back)` },
+    { key: "front", degrees: [0, 90, 180, 270], fill: `url(#${id}-felt)` },
+  ];
+  return (
+    <g mask={holed ? `url(#${id}-hole)` : undefined}>
+      {layers.map((layer) =>
+        layer.degrees.map((deg) => (
+          <path
+            key={`${layer.key}-${deg}`}
+            d={PETAL}
+            fill={layer.fill}
+            transform={`rotate(${deg} 100 100)`}
+            stroke="#6e1420"
+            strokeWidth="0.55"
+            strokeLinejoin="round"
+          />
+        )),
+      )}
+    </g>
+  );
+}
+
+function ButtonFace({ id }: { id: string }) {
+  const gold = `url(#${id}-gold)`;
+  return (
+    <g>
+      <circle cx="100" cy="100" r="33" fill={gold} />
+      <circle cx="100" cy="100" r="23.6" fill={`url(#${id}-enamel)`} />
+      <g clipPath={`url(#${id}-dome)`}>
+        <ellipse cx="90" cy="88" rx="9" ry="5" fill="white" opacity="0.14" />
+        <image
+          href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/pahlavi-crown.png`}
+          x="80.5"
+          y="82"
+          width="39"
+          height="32.5"
+        />
+      </g>
+      <circle
+        cx="100"
+        cy="100"
+        r="23.6"
+        fill="none"
+        stroke="#000"
+        strokeOpacity="0.35"
+        strokeWidth="0.7"
+      />
+      <text
+        fill="#4a3214"
+        fontSize="3.05"
+        fontFamily="Georgia, 'Times New Roman', serif"
+        letterSpacing="0.22"
+      >
+        <textPath href={`#${id}-rim-bot`} startOffset="50%" textAnchor="middle">
+          REMEMBRANCE  8–9 JAN
+        </textPath>
+      </text>
+      <text
+        fill="#4a3214"
+        fontSize="3.05"
+        fontFamily="Georgia, 'Times New Roman', serif"
+        letterSpacing="0.42"
+      >
+        <textPath href={`#${id}-rim-top`} startOffset="50%" textAnchor="middle">
+          PERSIA
+        </textPath>
+      </text>
+    </g>
+  );
+}
+
+export function AssembledPin({
+  className,
+  label,
+}: {
+  className?: string;
+  label: string;
+}) {
+  const id = useId().replace(/:/g, "");
+  return (
+    <svg viewBox="0 0 200 200" className={className} role="img" aria-label={label}>
+      <Defs id={id} />
+      <Petals id={id} />
+      <ButtonFace id={id} />
+    </svg>
+  );
+}
+
+export function FeltPiece({ className, label }: { className?: string; label: string }) {
+  const id = useId().replace(/:/g, "");
+  return (
+    <svg viewBox="0 0 200 200" className={className} role="img" aria-label={label}>
+      <Defs id={id} />
+      <Petals id={id} holed />
+    </svg>
+  );
+}
+
+export function ButtonPiece({
+  className,
+  label,
+}: {
+  className?: string;
+  label: string;
+}) {
+  const id = useId().replace(/:/g, "");
+  return (
+    <svg viewBox="0 0 200 220" className={className} role="img" aria-label={label}>
+      <Defs id={id} />
+      <ButtonFace id={id} />
+      <rect x="96.2" y="128" width="7.6" height="70" rx="1.2" fill={`url(#${id}-brass)`} />
+      <rect x="94" y="192" width="12" height="3" rx="0.6" fill="#f0ddb0" />
+    </svg>
+  );
+}
+
+export function ClutchPiece({
+  className,
+  label,
+}: {
+  className?: string;
+  label: string;
+}) {
+  const id = useId().replace(/:/g, "");
+  return (
+    <svg viewBox="0 0 200 120" className={className} role="img" aria-label={label}>
+      <Defs id={id} />
+      <rect x="36" y="34" width="128" height="52" rx="26" fill={`url(#${id}-gold)`} />
+      <rect x="54" y="48" width="92" height="24" rx="12" fill="#1a140e" opacity="0.22" />
+      <circle cx="100" cy="60" r="7" fill="#1a140e" />
+      <circle cx="97" cy="57" r="1.6" fill="#f3e2b8" opacity="0.4" />
+    </svg>
+  );
+}
+
+export function SectionCut({
+  className,
+  title,
+}: {
+  className?: string;
+  title: string;
+}) {
+  return (
+    <svg viewBox="0 0 520 292" className={className} role="img" aria-label={title}>
+      <path
+        d="M48 140 L170 126 L190 132 L330 126 L472 140 L338 154 L190 148 L170 154 Z"
+        fill="#7c1522"
+      />
+      <path
+        d="M36 128 L168 112 L188 118 L332 112 L464 128 L340 142 L188 136 L168 142 Z"
+        fill="#a61f30"
+      />
+      <path d="M150 124 Q250 78 350 124 V136 H150 Z" fill="#161311" />
+      <path d="M142 128 h216 v8 H142 Z" fill="#c6a15b" />
+      <path d="M242 96 h10 V82 h-10 Z" fill="#e7d3a4" />
+      <circle cx="250" cy="116" r="6" fill="#e7d3a4" />
+      <rect x="196" y="140" width="108" height="7" fill="#a6843c" />
+      <rect x="244" y="132" width="12" height="86" fill="#c6a15b" />
+      <rect x="214" y="210" width="72" height="30" rx="11" fill="#c6a15b" />
+      <circle cx="250" cy="225" r="5.5" fill="#1a140e" />
+
+      <g fill="none" stroke="#8a6d3d" strokeWidth="1">
+        <path d="M36 268 H464" />
+        <path d="M36 262 v12" />
+        <path d="M464 262 v12" />
+        <path d="M150 70 V48 H350 V70" />
+        <path d="M358 96 h16" />
+        <path d="M374 96 v40" />
+        <path d="M358 136 h16" />
+        <path d="M300 140 v70" />
+        <path d="M292 140 h16" />
+        <path d="M292 210 h16" />
+      </g>
+      <g
+        fill="#3a3126"
+        fontSize="14"
+        fontFamily="Georgia, Times, serif"
+        direction="ltr"
+        style={{ direction: "ltr", unicodeBidi: "isolate" }}
+      >
+        <text x="250" y="40" textAnchor="middle">
+          16 mm
+        </text>
+        <text x="382" y="122">
+          3.2 mm
+        </text>
+        <text x="250" y="258" textAnchor="middle">
+          48 mm
+        </text>
+        <text x="308" y="180">
+          22 mm
+        </text>
+      </g>
+    </svg>
+  );
+}
