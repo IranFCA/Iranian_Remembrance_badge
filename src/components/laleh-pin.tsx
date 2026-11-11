@@ -2,82 +2,47 @@
 
 import { useId } from "react";
 
-const PETAL =
-  "M100 4 C116 18 131 38 129 56 C127 74 115 90 100 100 C85 90 71 74 71 56 C69 38 84 18 100 4 Z";
+const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
-function uidOf(prefix: string) {
-  return `${prefix}`;
+function PhotoPin({
+  src,
+  className,
+  label,
+}: {
+  src: string;
+  className?: string;
+  label: string;
+}) {
+  return (
+    <img src={`${base}${src}`} alt={label} className={`h-auto w-full ${className ?? ""}`} />
+  );
 }
 
 function Defs({ id }: { id: string }) {
   return (
     <defs>
-      <radialGradient id={uidOf(`${id}-felt`)} cx="50%" cy="46%" r="68%">
-        <stop offset="0%" stopColor="#c4323f" />
-        <stop offset="62%" stopColor="#a11c2c" />
-        <stop offset="100%" stopColor="#861422" />
-      </radialGradient>
-      <radialGradient id={uidOf(`${id}-felt-back`)} cx="50%" cy="46%" r="68%">
-        <stop offset="0%" stopColor="#9a2432" />
-        <stop offset="70%" stopColor="#7c1522" />
-        <stop offset="100%" stopColor="#64101a" />
-      </radialGradient>
-      <radialGradient id={uidOf(`${id}-enamel`)} cx="34%" cy="30%" r="72%">
+      <radialGradient id={`${id}-enamel`} cx="34%" cy="30%" r="72%">
         <stop offset="0%" stopColor="#3c3834" />
         <stop offset="48%" stopColor="#161311" />
         <stop offset="100%" stopColor="#050403" />
       </radialGradient>
-      <linearGradient id={uidOf(`${id}-gold`)} x1="0" y1="0" x2="0" y2="1">
+      <linearGradient id={`${id}-gold`} x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%" stopColor="#f3e2b8" />
         <stop offset="42%" stopColor="#d4b36a" />
         <stop offset="100%" stopColor="#8a6424" />
       </linearGradient>
-      <linearGradient id={uidOf(`${id}-brass`)} x1="0" y1="0" x2="1" y2="0">
+      <linearGradient id={`${id}-brass`} x1="0" y1="0" x2="1" y2="0">
         <stop offset="0%" stopColor="#8d6428" />
         <stop offset="38%" stopColor="#f0d7a2" />
         <stop offset="70%" stopColor="#b89044" />
         <stop offset="100%" stopColor="#6e4e1c" />
       </linearGradient>
-      <clipPath id={uidOf(`${id}-dome`)}>
+      <clipPath id={`${id}-dome`}>
         <circle cx="100" cy="100" r="23.6" />
       </clipPath>
-      <path
-        id={uidOf(`${id}-rim-top`)}
-        d="M 71.4 100 A 28.6 28.6 0 0 0 128.6 100"
-      />
-      <path
-        id={uidOf(`${id}-rim-bot`)}
-        d="M 71.4 100 A 28.6 28.6 0 0 1 128.6 100"
-      />
-      <mask id={uidOf(`${id}-hole`)}>
-        <rect width="200" height="200" fill="white" />
-        <circle cx="100" cy="100" r="9.4" fill="black" />
-      </mask>
+      <path id={`${id}-rim-top`} d="M 71.4 100 A 28.6 28.6 0 0 0 128.6 100" />
+      <path id={`${id}-rim-bot`} d="M 71.4 100 A 28.6 28.6 0 0 1 128.6 100" />
     </defs>
-  );
-}
-
-function Petals({ id, holed }: { id: string; holed?: boolean }) {
-  const layers = [
-    { key: "back", degrees: [45, 135, 225, 315], fill: `url(#${id}-felt-back)` },
-    { key: "front", degrees: [0, 90, 180, 270], fill: `url(#${id}-felt)` },
-  ];
-  return (
-    <g mask={holed ? `url(#${id}-hole)` : undefined}>
-      {layers.map((layer) =>
-        layer.degrees.map((deg) => (
-          <path
-            key={`${layer.key}-${deg}`}
-            d={PETAL}
-            fill={layer.fill}
-            transform={`rotate(${deg} 100 100)`}
-            stroke="#6e1420"
-            strokeWidth="0.55"
-            strokeLinejoin="round"
-          />
-        )),
-      )}
-    </g>
   );
 }
 
@@ -90,7 +55,7 @@ function ButtonFace({ id }: { id: string }) {
       <g clipPath={`url(#${id}-dome)`}>
         <ellipse cx="90" cy="88" rx="9" ry="5" fill="white" opacity="0.14" />
         <image
-          href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/pahlavi-crown.png`}
+          href={`${base}/pahlavi-crown.png`}
           x="80.5"
           y="82"
           width="39"
@@ -137,24 +102,21 @@ export function AssembledPin({
   className?: string;
   label: string;
 }) {
-  const id = useId().replace(/:/g, "");
-  return (
-    <svg viewBox="0 0 200 200" className={className} role="img" aria-label={label}>
-      <Defs id={id} />
-      <Petals id={id} />
-      <ButtonFace id={id} />
-    </svg>
-  );
+  return <PhotoPin src="/laleh-pin-design.png" className={className} label={label} />;
+}
+
+export function LapelPin({
+  className,
+  label,
+}: {
+  className?: string;
+  label: string;
+}) {
+  return <PhotoPin src="/laleh-pin-cutout.png" className={className} label={label} />;
 }
 
 export function FeltPiece({ className, label }: { className?: string; label: string }) {
-  const id = useId().replace(/:/g, "");
-  return (
-    <svg viewBox="0 0 200 200" className={className} role="img" aria-label={label}>
-      <Defs id={id} />
-      <Petals id={id} holed />
-    </svg>
-  );
+  return <PhotoPin src="/laleh-felt.png" className={className} label={label} />;
 }
 
 export function ButtonPiece({

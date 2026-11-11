@@ -1,22 +1,58 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import Image from "next/image";
-import { copy, type Lang } from "@/lib/copy";
+import { copy, type Copy, type Lang } from "@/lib/copy";
 import {
-  AssembledPin,
-  ButtonPiece,
-  ClutchPiece,
-  FeltPiece,
-  SectionCut,
+  AssembledPin as LalehPin,
+  ButtonPiece as LalehButton,
+  ClutchPiece as LalehClutch,
+  FeltPiece as LalehFelt,
+  LapelPin as LalehLapel,
+  SectionCut as LalehSection,
 } from "@/components/laleh-pin";
 
 type View = "flower" | "pieces" | "lapel";
 
-export function Proposal() {
+type PinView = (props: { className?: string; label: string }) => ReactNode;
+type SectionView = (props: { className?: string; title: string }) => ReactNode;
+
+const lalehParts = {
+  AssembledPin: LalehPin,
+  FeltPiece: LalehFelt,
+  ButtonPiece: LalehButton,
+  ClutchPiece: LalehClutch,
+  SectionCut: LalehSection,
+  LapelPin: LalehLapel,
+};
+
+export function Proposal({
+  text = copy,
+  photo = "/pin-sample.jpg",
+  photoWidth = 1056,
+  photoHeight = 976,
+  design = "/downloads/laleh-pin-design.psd",
+  parts = lalehParts,
+}: {
+  text?: Record<Lang, Copy>;
+  photo?: string;
+  photoWidth?: number;
+  photoHeight?: number;
+  design?: string;
+  parts?: {
+    AssembledPin: PinView;
+    FeltPiece: PinView;
+    ButtonPiece: PinView;
+    ClutchPiece: PinView;
+    SectionCut: SectionView;
+    LapelPin?: PinView;
+  };
+} = {}) {
   const [lang, setLang] = useState<Lang>("fa");
   const [view, setView] = useState<View>("flower");
-  const t = copy[lang];
+  const t = text[lang];
+  const { AssembledPin, FeltPiece, ButtonPiece, ClutchPiece, SectionCut } = parts;
+  const LapelPin = parts.LapelPin ?? AssembledPin;
   const fa = lang === "fa";
 
   useEffect(() => {
@@ -106,22 +142,13 @@ export function Proposal() {
                 className="flex flex-1 items-center justify-center px-4 py-8"
               >
                 {view === "flower" && (
-                  <div className="w-full max-w-[26rem]">
-                    <AssembledPin
-                      className="pin-shadow w-full"
-                      label={t.pinLabel}
-                    />
-                    <div className="mx-auto mt-1 w-[88%]">
-                      <div className="flex items-center gap-2 text-[0.68rem] tracking-[0.16em] text-gold-2 uppercase">
-                        <span className="h-2 w-px bg-gold" />
-                        <span className="h-px flex-1 bg-gold/70" />
-                        <span className={fa ? "font-persian normal-case" : ""}>
-                          {t.scale}
-                        </span>
-                        <span className="h-px flex-1 bg-gold/70" />
-                        <span className="h-2 w-px bg-gold" />
-                      </div>
-                    </div>
+                  <div className="w-full max-w-[30rem]">
+                    <AssembledPin className="w-full" label={t.pinLabel} />
+                    <p className="mt-3 text-center">
+                      <DownloadLink href={design} fa={fa}>
+                        {t.download.label}
+                      </DownloadLink>
+                    </p>
                   </div>
                 )}
                 {view === "pieces" && (
@@ -169,7 +196,7 @@ export function Proposal() {
                       />
                       <div className="absolute top-[8%] left-[46%] h-[28%] w-px bg-black/50" />
                       <div className="absolute top-[34%] left-[40%] w-[40%] -rotate-2">
-                        <AssembledPin label={t.pinLabel} />
+                        <LapelPin label={t.pinLabel} />
                       </div>
                     </div>
                     <p className="mt-3 text-center text-sm text-gold-2">
@@ -294,10 +321,10 @@ export function Proposal() {
           <div className="stage relative">
             <Corners />
             <Image
-              src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/pin-sample.jpg`}
+              src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${photo}`}
               alt={t.photoAlt}
-              width={1024}
-              height={1024}
+              width={photoWidth}
+              height={photoHeight}
               className="h-auto w-full"
             />
           </div>
@@ -360,6 +387,20 @@ export function Proposal() {
               ))}
             </ul>
           </div>
+
+          <div className="mt-10 border-t border-ink/15 pt-6">
+            <a
+              href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${design}`}
+              download
+              className={`inline-flex min-h-11 items-center gap-2 border border-ink/30 px-4 text-sm text-ink hover:border-brass hover:text-brass ${
+                fa ? "font-persian" : "tracking-[0.06em]"
+              }`}
+            >
+              <span aria-hidden>↓</span>
+              {t.download.label}
+            </a>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-ink/70">{t.download.note}</p>
+          </div>
         </section>
       </main>
     </div>
@@ -389,6 +430,29 @@ function LangButton({
     >
       {children}
     </button>
+  );
+}
+
+function DownloadLink({
+  href,
+  fa,
+  children,
+}: {
+  href: string;
+  fa: boolean;
+  children: string;
+}) {
+  return (
+    <a
+      href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${href}`}
+      download
+      className={`inline-flex min-h-11 items-center gap-2 text-[0.72rem] tracking-[0.16em] text-gold uppercase hover:text-gold-2 ${
+        fa ? "font-persian text-sm tracking-normal normal-case" : ""
+      }`}
+    >
+      <span aria-hidden>↓</span>
+      {children}
+    </a>
   );
 }
 
