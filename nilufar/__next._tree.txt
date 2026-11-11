@@ -1,0 +1,9 @@
+:HL["/Iranian_Remembrance_badge/_next/static/chunks/3c6717qc_vint.css","style"]
+:HL["/Iranian_Remembrance_badge/_next/static/media/01d6212a423b17a1-s.p.1pvupmngxrt5z.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/Iranian_Remembrance_badge/_next/static/media/3146272aa7a4924e-s.p.21se6xk6bxqs6.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/Iranian_Remembrance_badge/_next/static/media/413d8ff922cbc3a2-s.p.2avnhkksosb5d.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/Iranian_Remembrance_badge/_next/static/media/6873f4f49904bdbd-s.p.2adce56gso3ku.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/Iranian_Remembrance_badge/_next/static/media/6f3ab718e3727c1a-s.p.3huc2loe0ie8a.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+2:[["children",{"s":"__PAGE__","h":160}]]
+1:[["children",{"s":"nilufar","h":96,"c":"$Q2"}]]
+0:{"b":"ede1Wt1REI9Nqk_ejvBkt","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
